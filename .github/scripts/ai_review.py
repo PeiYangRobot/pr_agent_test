@@ -3,7 +3,7 @@ from openai import OpenAI
 
 # DeepSeek 兼容 OpenAI SDK，只需配置 base_url 和 api_key
 client = OpenAI(
-    api_key=os.environ["OPENAI_API_KEY"],
+    api_key=os.environ["DEEPSEEK_API_KEY"],
     base_url="https://api.deepseek.com"
 )
 

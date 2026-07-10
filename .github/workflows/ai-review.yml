@@ -1,7 +1,7 @@
 name: AI Code Review (DeepSeek)
 
 on:
-  pull_request:
+  pull_request_target:          # 关键：改为 pull_request_target
     types: [opened, synchronize, reopened]
 
 permissions:
@@ -11,12 +11,14 @@ permissions:
 jobs:
   review:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name == github.repository || github.event.pull_request.head.repo.fork
+    # 不再需要 fork 条件，因为 target 事件始终在目标仓库运行
     steps:
-      - name: Checkout code
+      # 第一步：只检出目标分支（main）的代码，而不是 PR 的合并代码
+      - name: Checkout trusted scripts
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: ${{ github.base_ref }}   # 强制使用目标分支（如 main）
+          path: trusted                 # 放到 trusted 目录下，避免与后续操作混淆
 
       - name: Get PR diff
         id: diff
@@ -24,20 +26,20 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr diff $PR_NUMBER > pr.diff
+          # 获取 PR 的 diff（只读操作，安全）
+          gh pr diff $PR_NUMBER --repo ${{ github.repository }} > pr.diff
           echo "diff_length=$(wc -c < pr.diff)" >> $GITHUB_OUTPUT
 
       - name: Install Python dependencies
-        run: pip install -r .github/scripts/requirements.txt
+        run: pip install -r trusted/.github/scripts/requirements.txt
 
       - name: Analyze diff with DeepSeek
         id: analyze
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
-          echo "Debug: Key length is ${#OPENAI_API_KEY}"
-          head -c 40000 pr.diff > diff_to_review.txt
-          python .github/scripts/ai_review.py diff_to_review.txt > review_output.md
+          # 使用我们信任的脚本（来自目标分支）
+          python trusted/.github/scripts/ai_review.py pr.diff > review_output.md
           {
             echo 'review_body<<EOF'
             cat review_output.md
