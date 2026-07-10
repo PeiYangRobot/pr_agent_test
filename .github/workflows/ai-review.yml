@@ -33,9 +33,9 @@ jobs:
       - name: Analyze diff with DeepSeek
         id: analyze
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          echo "Debug: Key length is ${#DEEPSEEK_API_KEY}"
+          echo "Debug: Key length is ${#OPENAI_API_KEY}"
           head -c 40000 pr.diff > diff_to_review.txt
           python .github/scripts/ai_review.py diff_to_review.txt > review_output.md
           {
