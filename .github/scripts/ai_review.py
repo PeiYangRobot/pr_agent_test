@@ -13,7 +13,7 @@ with open(diff_file, "r") as f:
 
 # 建议使用 deepseek-chat 模型，性价比极高
 response = client.chat.completions.create(
-    model="deepseek-v4pro",          # 或 deepseek-reasoner 用于深度推理
+    model="deepseek-v4-pro",          # 或 deepseek-reasoner 用于深度推理
     messages=[
         {
             "role": "system",
