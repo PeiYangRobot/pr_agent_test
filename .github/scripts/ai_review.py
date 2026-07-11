@@ -3,8 +3,8 @@ from openai import OpenAI
 
 # DeepSeek 兼容 OpenAI SDK，只需配置 base_url 和 api_key
 client = OpenAI(
-    api_key=os.environ["GEMINI_API_KEY"],
-    base_url="http://192.168.28.57:8045/v1"  # http://192.168.28.57:8045/v1  https://api.deepseek.com
+    api_key=os.environ["DEEPSEEK_API_KEY"],
+    base_url="https://api.deepseek.com"  # http://192.168.28.57:8045/v1  https://api.deepseek.com
 )
 
 diff_file = sys.argv[1]
@@ -13,7 +13,7 @@ with open(diff_file, "r") as f:
 
 # 建议使用 deepseek-chat 模型，性价比极高
 response = client.chat.completions.create(
-    model="gemini-3.5-flash",          # 或 deepseek-v4-pro 用于深度推理
+    model="deepseek-v4-pro",          # 或 deepseek-v4-pro 用于深度推理
     messages=[
         {
             "role": "system",
