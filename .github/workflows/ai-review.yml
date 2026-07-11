@@ -36,7 +36,7 @@ jobs:
       - name: Analyze diff with DeepSeek
         id: analyze
         env:
-          DeepSeek_API_KEY: ${{ secrets.DeepSeek_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
           # 使用我们信任的脚本（来自目标分支）
           python trusted/.github/scripts/ai_review.py pr.diff > review_output.md
