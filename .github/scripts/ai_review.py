@@ -4,7 +4,7 @@ from openai import OpenAI
 # DeepSeek 兼容 OpenAI SDK，只需配置 base_url 和 api_key
 client = OpenAI(
     api_key=os.environ["GEMINI_API_KEY"],
-    base_url="http://127.0.0.1:8045/v1/chat/completions"  # http://127.0.0.1:8045/v1/chat/completions  https://api.deepseek.com
+    base_url="http://192.168.122.1:8045/v1/chat/completions"  # http://127.0.0.1:8045/v1/chat/completions  https://api.deepseek.com
 )
 
 diff_file = sys.argv[1]
