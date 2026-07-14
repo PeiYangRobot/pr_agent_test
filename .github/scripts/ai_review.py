@@ -12,7 +12,7 @@ with open(diff_file, "r") as f:
 
 # Note: Antigravity lets you call any model via the Anthropic SDK
 response = client.chat.completions.create(
-    model="gemini-3-flash-low",
+    model="gemini-3-flash-agent",
     messages=[
         {
             "role": "system",
