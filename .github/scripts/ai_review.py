@@ -1,7 +1,7 @@
 import sys, os
 from openai import OpenAI
 
-client = Anthropic(
+client = OpenAI(
     base_url="https://antigravity-manager-api.ofahxztfgt.workers.dev",
     api_key=os.environ["GEMINI_API_KEY"],
 )
