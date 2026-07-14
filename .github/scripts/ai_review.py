@@ -1,19 +1,19 @@
 import sys, os
 from openai import OpenAI
 
-# DeepSeek 兼容 OpenAI SDK，只需配置 base_url 和 api_key
-client = OpenAI(
-    api_key=os.environ["DEEPSEEK_API_KEY"],
-    base_url="https://api.deepseek.com"  # http://192.168.28.57:8045/v1  https://api.deepseek.com
+client = Anthropic(
+    base_url="https://antigravity-manager-api.ofahxztfgt.workers.dev",
+    api_key=os.environ["GEMINI_API_KEY"],
 )
 
 diff_file = sys.argv[1]
 with open(diff_file, "r") as f:
     diff_content = f.read()
 
-# 建议使用 deepseek-chat 模型，性价比极高
-response = client.chat.completions.create(
-    model="deepseek-v4-pro",          # 或 deepseek-v4-pro 用于深度推理
+# Note: Antigravity lets you call any model via the Anthropic SDK
+response = client.messages.create(
+    model="claude-sonnet-4-6",
+    max_tokens=1024,
     messages=[
         {
             "role": "system",
@@ -28,4 +28,4 @@ response = client.chat.completions.create(
     max_tokens=2048,
 )
 
-print(response.choices[0].message.content)
+print(response.content[0].text)

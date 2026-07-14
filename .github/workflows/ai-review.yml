@@ -1,4 +1,4 @@
-name: AI Code Review (DeepSeek)
+name: AI Code Review (Gemini)
 
 on:
   pull_request_target:          # 关键：改为 pull_request_target
@@ -137,11 +137,11 @@ jobs:
         if: steps.team_check.outputs.auto_merge != 'true' && steps.diff.outputs.skip_review != 'true'
         run: pip install -r trusted/.github/scripts/requirements.txt
 
-      - name: Analyze diff with DeepSeek
+      - name: Analyze diff with Gemini
         if: steps.team_check.outputs.auto_merge != 'true' && steps.diff.outputs.skip_review != 'true'
         id: analyze
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           # 使用我们信任的脚本（来自目标分支）
           python trusted/.github/scripts/ai_review.py pr.diff > review_output.md
