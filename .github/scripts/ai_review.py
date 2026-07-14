@@ -1,8 +1,8 @@
 import sys, os
 from openai import OpenAI
 
-client = Anthropic(
-    base_url="https://antigravity-manager-api.ofahxztfgt.workers.dev",
+client = OpenAI(
+    base_url="https://antigravity-manager-api.luckyy.ccwu.cc/v1",
     api_key=os.environ["GEMINI_API_KEY"],
 )
 
@@ -11,9 +11,8 @@ with open(diff_file, "r") as f:
     diff_content = f.read()
 
 # Note: Antigravity lets you call any model via the Anthropic SDK
-response = client.messages.create(
-    model="claude-sonnet-4-6",
-    max_tokens=1024,
+response = client.chat.completions.create(
+    model="gemini-3-flash-agent",
     messages=[
         {
             "role": "system",
@@ -25,7 +24,7 @@ response = client.messages.create(
         }
     ],
     temperature=0.0,                # 严谨审查建议用 0
-    max_tokens=2048,
+    max_tokens=1024,
 )
 
-print(response.content[0].text)
+print(response.choices[0].message.content)
