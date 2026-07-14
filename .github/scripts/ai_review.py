@@ -2,7 +2,7 @@ import sys, os
 from openai import OpenAI
 
 client = OpenAI(
-    base_url="https://antigravity-manager-api.ofahxztfgt.workers.dev",
+    base_url="https://antigravity-manager-api.ofahxztfgt.workers.dev/v1",
     api_key=os.environ["GEMINI_API_KEY"],
 )
 
